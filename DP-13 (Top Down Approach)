@@ -1,0 +1,27 @@
+int compute(int n, int target, vector<int> &arr, vector<vector<int> > &dp) {
+    
+    if(target==0)
+        return 1;
+    
+    if(target < 0) 
+        return 0;
+    
+    if(n==0)
+        return (target==arr[n]) ? 1 : 0;
+    
+    if(dp[n][target] != -1) 
+        return dp[n][target];
+    
+    int nonPick = compute(n-1, target, arr, dp);
+    int pick = compute(n-1, target - arr[n], arr, dp);
+    
+    return dp[n][target] = (nonPick | pick);
+}
+
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+    
+    vector<vector<int> > dp(n, vector<int>(k+1,-1));
+    
+    return compute(n-1, k, arr, dp);
+}
