@@ -1,4 +1,4 @@
-int compute(int n, int target, vector<int> &arr, vector<vector<int> > &dp) {
+bool compute(int n, int target, vector<int> &arr, vector<vector<int> > &dp) {
     
     if(target==0)
         return 1;
@@ -12,8 +12,8 @@ int compute(int n, int target, vector<int> &arr, vector<vector<int> > &dp) {
     if(dp[n][target] != -1) 
         return dp[n][target];
     
-    int nonPick = compute(n-1, target, arr, dp);
-    int pick = compute(n-1, target - arr[n], arr, dp);
+    bool nonPick = compute(n-1, target, arr, dp);
+    bool pick = compute(n-1, target - arr[n], arr, dp);
     
     return dp[n][target] = (nonPick | pick);
 }
