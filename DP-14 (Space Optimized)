@@ -1,0 +1,26 @@
+bool subsetSumToK(int n, int k, vector<int> &arr) {
+    // Write your code here.
+    
+    vector<bool> prev(k+1,0);
+    vector<bool> curr(k+1,0);
+    
+    prev[0] = curr[0] = 1;
+    prev[arr[0]] = 1;
+    
+    for(int i=1;i<n;++i) {
+        
+        for(int j=1;j<=k;++j) {
+            
+            int pick = 0;
+            int nonPick = prev[j];
+            
+            if(arr[i] <= j) pick = prev[j-arr[i]]; 
+            
+            curr[j] = pick | nonPick;
+        }
+        
+        prev = curr;
+    }
+    
+    return curr[k];
+}
