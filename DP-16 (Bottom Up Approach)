@@ -1,0 +1,41 @@
+int minSubsetSumDifference(vector<int>& arr, int n) {
+	// Write your code here.
+	
+	int sum = 0;
+	
+	for(int num : arr) sum += num;
+	
+	vector<vector<bool> > dp(n, vector<bool>(sum + 1, false));
+	
+	for(int i=0;i<n;++i) dp[i][0] = true;
+	
+	if(arr[0] <= sum) dp[0][arr[0]] = true;
+	
+	for(int i=1;i<n;++i) {
+		
+		for(int j=1;j<=sum;++j) {
+			
+			bool pick = false;
+			bool nonPick = dp[i-1][j];
+			
+			if(j >= arr[i]) pick = dp[i-1][j-arr[i]];
+			
+			dp[i][j] = pick | nonPick;
+		}
+	}
+	
+	int ans = 1e5;
+	
+	for(int i=0;i<=sum;++i) {
+		
+		if(dp[n-1][i]) {
+			
+			int bucket1 = i;
+			int bucket2 = sum - i;
+			
+			ans = min(ans, abs(bucket1 - bucket2));
+		}
+	}
+	
+	return ans;
+}
