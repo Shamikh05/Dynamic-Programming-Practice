@@ -1,0 +1,25 @@
+int compute(vector<int> &num, int idx, int target, vector<vector<int> > &dp) {
+	
+	if(target == 0) return 1;
+	
+	if(target < 0) return 0;
+	
+	if(idx==0) return num[0]==target ? 1 : 0;
+	
+	if(dp[idx][target] != -1) return dp[idx][target];
+	
+	int pick = compute(num, idx-1, target-num[idx], dp);
+	int nonPick = compute(num, idx-1, target, dp);
+	
+	return dp[idx][target] = pick + nonPick;
+}
+
+int findWays(vector<int> &num, int tar) {
+    // Write your code here.
+	
+	int n = num.size();
+	
+	vector<vector<int> > dp(n, vector<int>(tar+1, -1));
+	
+	return compute(num, n-1, tar, dp);
+}
