@@ -1,0 +1,29 @@
+int findWays(vector<int> &num, int tar) {
+    // Write your code here.
+	
+	int n = num.size();
+	
+	vector<int> prev(tar+1,0);
+	vector<int> curr(tar+1,0);
+	
+	prev[0] = curr[0] = 1;
+	
+	if(num[0] <= tar) prev[num[0]] = 1;
+	
+	for(int i=1;i<n;++i) {
+		
+		for(int j=1;j<=tar;++j) {
+			
+			int pick = 0;
+			int nonPick = prev[j];
+			
+			if(j >= num[i]) pick = prev[j-num[i]];
+			
+			curr[j] = (pick + nonPick);
+		}
+		
+		prev = curr;
+	}
+	
+	return prev[tar];
+}
