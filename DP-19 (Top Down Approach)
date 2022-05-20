@@ -1,0 +1,27 @@
+int compute(vector<int> &weight, vector<int> &value, int idx, int avlWt, vector<vector<int> > &dp) {	
+	
+	if(avlWt==0) 
+		return 0;
+	
+	if(idx==0) 
+		return (weight[0] <= avlWt) ? value[0] : 0;
+	
+	if(dp[idx][avlWt] != -1) 
+		return dp[idx][avlWt];
+	
+	int take = 0;
+	int notTake = compute(weight, value, idx - 1, avlWt, dp); 
+	
+	if(weight[idx] <= avlWt) 
+		take = value[idx] + compute(weight, value, idx - 1, avlWt - weight[idx], dp);
+	
+	return dp[idx][avlWt] = max(take, notTake);
+}
+
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
+	// Write your code here
+	
+	vector<vector<int> > dp(n, vector<int>(maxWeight+1, -1));
+	
+	return compute(weight, value, n-1, maxWeight, dp);
+}
