@@ -1,0 +1,26 @@
+int knapsack(vector<int> weight, vector<int> value, int n, int maxWeight) {
+	// Write your code here
+	
+	vector<int> prev(maxWeight+1, 0);
+	vector<int> curr(maxWeight+1, 0);
+	
+	for(int i=1;i<=maxWeight;++i) 
+		prev[i] = (weight[0] <= i) ? value[0] : 0;
+	
+	for(int i=1;i<n;++i) {
+		
+		for(int j=0;j<=maxWeight;++j) {
+			
+			int take = 0;
+			int notTake = prev[j];
+			
+			if(weight[i] <= j) take = value[i] + prev[j - weight[i]];
+			
+			curr[j] = max(take, notTake);
+		}
+		
+		prev = curr;
+	}
+	
+	return prev[maxWeight];
+}
