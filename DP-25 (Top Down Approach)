@@ -1,0 +1,26 @@
+# include <bits/stdc++.h>
+
+int compute(string s, string t, int sIdx, int tIdx, vector<vector<int> > &dp) {
+    
+    if(sIdx==0 or tIdx==0) 
+        return (s[sIdx]==t[tIdx]) ? 1 : 0;
+    
+    if(dp[sIdx][tIdx] != -1) 
+        return dp[sIdx][tIdx];
+    
+    if(s[sIdx]==t[tIdx]) 
+        return dp[sIdx][tIdx] = 1 + compute(s, t, sIdx-1, tIdx-1, dp);
+    
+    return dp[sIdx][tIdx] = max(compute(s, t, sIdx-1, tIdx, dp), compute(s, t, sIdx, tIdx-1, dp));
+}
+
+int lcs(string s, string t) {
+	//Write your code here
+    
+    int n1 = s.size();
+    int n2 = t.size();
+    
+    vector<vector<int> > dp(n1, vector<int>(n2, -1));
+    
+    return compute(s, t, n1-1, n2-1, dp);
+}
