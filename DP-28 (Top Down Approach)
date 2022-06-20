@@ -1,0 +1,36 @@
+class Solution {
+    vector<vector<int> > dp;
+private:
+    int computeLCS(string &s1, int startIdx, int endIdx) {
+        
+        if(startIdx > endIdx) {
+            return 0;
+        }
+        
+        if(startIdx == endIdx) {
+            return 1;
+        }
+        
+        if(dp[startIdx][endIdx] != -1) {
+            return dp[startIdx][endIdx];
+        }
+        
+        if(s1[startIdx] == s1[endIdx]) {
+            return dp[startIdx][endIdx] = 2 + computeLCS(s1, startIdx+1, endIdx-1);
+        }
+        
+        int leaveStartIdx = computeLCS(s1, startIdx + 1, endIdx);
+        int leaveEndIdx = computeLCS(s1, startIdx, endIdx - 1);
+        
+        return dp[startIdx][endIdx] = max(leaveStartIdx, leaveEndIdx);
+    }
+public:
+    int longestPalindromeSubseq(string s) {
+                
+        int n = s.size();
+        
+        dp.resize(n, vector<int>(n, -1));
+    
+        return computeLCS(s, 0, n-1);
+    }
+};
