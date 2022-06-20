@@ -1,0 +1,25 @@
+class Solution {
+public:
+    int longestPalindromeSubseq(string s) {
+        
+        int n = s.size();
+        
+        string revS = s;
+        reverse(revS.begin(), revS.end());
+        
+        vector<int> prevDp(n+1, 0), currDp(n+1, 0);
+        
+        for(int i=1;i<=n;++i) {
+            
+            for(int j=1;j<=n;++j) {
+                
+                if(s[i-1]==revS[j-1]) currDp[j] = 1 + prevDp[j-1];
+                else currDp[j] = max(prevDp[j], currDp[j-1]);
+            }
+            
+            prevDp = currDp;
+        }
+        
+        return currDp[n];
+    }
+};
