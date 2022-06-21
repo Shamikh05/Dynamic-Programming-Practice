@@ -1,0 +1,37 @@
+class Solution {
+private:
+    int findLPS(string &s, int leftPtr, int rightPtr, vector<vector<int> > &dp) {
+        
+        if(leftPtr > rightPtr) {
+            return 0;
+        }
+        
+        if(leftPtr == rightPtr) {
+            return 1;
+        }
+        
+        if(dp[leftPtr][rightPtr] != -1) {
+            return dp[leftPtr][rightPtr];
+        }
+        
+        if(s[leftPtr] == s[rightPtr]) {
+            return 2 + findLPS(s, leftPtr+1, rightPtr-1, dp);
+        }
+        
+        int leaveRight = findLPS(s, leftPtr, rightPtr-1, dp);
+        int leaveLeft = findLPS(s, leftPtr+1, rightPtr, dp);
+        
+        return dp[leftPtr][rightPtr] = max(leaveRight, leaveLeft);
+    }
+public:
+    int minInsertions(string s) {
+        
+        int n = s.size();
+        
+        vector<vector<int> > dp(n, vector<int>(n, -1));
+        
+        int fixedChars = findLPS(s, 0, n-1, dp);
+        
+        return n - fixedChars;
+    }
+};
