@@ -1,0 +1,15 @@
+#include <bits/stdc++.h>
+
+long getMaximumProfit(long *values, int n) {
+    //Write your code here
+    vector<long> prevDP(2, 0);
+    vector<long> currDP(2, 0);
+    
+    for(int i=n-1;i>=0;--i) {
+        currDP[0] = max(prevDP[1] + values[i], prevDP[0]);
+        currDP[1] = max(prevDP[0] - values[i], prevDP[1]);
+        
+        prevDP = currDP;
+    }
+    return prevDP[1];
+}
