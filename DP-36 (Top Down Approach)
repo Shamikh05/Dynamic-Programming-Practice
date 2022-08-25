@@ -1,0 +1,29 @@
+#include <bits/stdc++.h>
+
+long computeMaxProfit(int idx, int buy, long *values, int n, vector<vector<long> > &dp) {
+    if(idx==n) {
+        return 0;        
+    }
+    
+    if(dp[idx][buy] != -1) {
+        return dp[idx][buy];
+    }
+    
+    long profit = 0;
+    if(buy) {
+        long buyStock = computeMaxProfit(idx+1, 0, values, n, dp) - values[idx];
+        long leaveIt = computeMaxProfit(idx+1, 1, values, n, dp);
+        profit = max(buyStock, leaveIt);
+    }
+    else {
+        long sellStock = computeMaxProfit(idx+1, 1, values, n, dp) + values[idx];
+        long leaveIt = computeMaxProfit(idx+1, 0, values, n, dp);
+        profit = max(sellStock, leaveIt);
+    }
+    return dp[idx][buy] = profit;
+}
+long getMaximumProfit(long *values, int n) {
+    //Write your code here
+    vector<vector<long> > dp(n, vector<long>(2, -1)); 
+    return computeMaxProfit(0, 1, values, n, dp);
+}
